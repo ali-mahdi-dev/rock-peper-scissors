@@ -1,9 +1,9 @@
 
-# Paper & Rock & Scisser Game
+# Paper & Rock & Scissors Game
 
 ---
 
-👉[Play Now](https://rock-peper-scissers.netlify.app/) 👈
+👉[Play Now](https://rock-peper-scissors.netlify.app/) 👈
 
 ---
 
