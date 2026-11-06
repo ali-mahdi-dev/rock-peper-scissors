@@ -2,6 +2,8 @@
 # Paper & Rock & Scisser Game
 
 ---
+Play Now: https://rock-peper-scissers.netlify.app/
+---
 
 ## How Does Code Works (principal)
 ===== Pseudo Code =====
