@@ -1,5 +1,5 @@
 
-/* Game: Paper/ Rock/ Scisser
+/* Game: Paper/ Rock/ Scissors
 ---
 ===== Pseudo Code =====
 /*
@@ -30,7 +30,11 @@ const rps_text = {
 
 // History used to improve computer intelligence (using an algorithm to predict player movement).
 // DON'T CHANGE "history" INITIAL VALUE!
-const history = [ {X:0, Y:1}/*{ X:null, Y:null }*/ ]; // for some season computer have a good chance to win with this initial history.
+const history = [ {X:0, Y:1} ]; // for some reason computer have a good chance to win with this initial history :)
+
+let wins_counter = 0;
+let loses_counter = 0;
+
 
 
 function getComputerSelect() {
@@ -64,21 +68,28 @@ function getComputerSelect() {
 	// v2 (intelligent select - depends on previous selects(history) of player, using strategy methods)
 	max = 2;
 	y = Math.round(Math.random() * max); // 0 | 1 | 2
-	/*
-	Possibilities:
-		0 -> 20% (0-0.4)
-		1 -> 40% (0.5 - 0.9) & (1 - 1.4)
-		2 -> 40% (1.5 - 1.9) & (2 - 2.4)
-	*/
-	// Most peoples play rock at first turn.
-	if (history.length === 0) y = 0;
-	// if player lose, select did Not Selected element in the last turn.
-	if ((history && history.length !== 0) && getResult(history[history.length - 1]) === "Computer Win") {
-		y = [0,1,2].filter((e, index, arr)=>{
-			return ((arr[index] !== history[history.length - 1]["X"]) && (arr[index] !== history[history.length - 1]["Y"]));
-		});
+	// For 15 turns follow a strategythen be random and back with strategy then go random.
+	if ((history.length < 15) || (history.length > 20 && history.length < 25)) {
+		// Most peoples play rock at first turn.
+		if (history.length === 0) y = 0;
+		// if player lose, select did Not Selected element in the last turn.
+		if ((history && history.length !== 0) && getResult(history[history.length - 1]) === "Computer Win") {
+			y = [0,1,2].filter((e, index, arr)=>{
+				return ((arr[index] !== history[history.length - 1]["X"]) && (arr[index] !== history[history.length - 1]["Y"]));
+			});
+		}
+		// Winner Players repeats what make them win
+		if ((history && history.length !== 0) && getResult(history[history.length - 1]) === "You Win") {
+			let xx = history[history.length - 1]["X"]; // Last player choice (which make him wins)
+			let yy = 0; // change until computer, then use this as a move.
+			y = yy;
+			// Make sure computer will win
+			while(getResult({"X": xx, "Y": yy }) === "You Win") {
+				yy++; // update the move until computer wins
+				y = yy; // the choice makes player lose (if he repeats his move)
+			}
+		}
 	}
-
 	
 	// v3 (intelligent select - depends on previous selects(history) of player, using strategy methods)
 	// y = Coming Soon..
@@ -107,6 +118,15 @@ btns.forEach((btn)=>{
 		// Style Clicked Button
 		btns.forEach((e)=>{ e.style.borderColor = "transparent"; });
 		btn.style.borderColor = "gold";
+		// Show and Update Results Counter
+		if (getResult(selects) === "You Win") {
+			wins_counter++;
+			document.querySelector(".wins").textContent = "Wins: " + wins_counter;
+		}
+		else if (getResult(selects) === "Computer Win") {
+			loses_counter++;
+			document.querySelector(".loses").textContent = "Loses: " + loses_counter;
+		}
 	}
 });
 
