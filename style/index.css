@@ -40,6 +40,19 @@ body {
 }
 
 
+.results-history {
+	position: fixed;
+	bottom: 15%;
+	left: 5%;
+	display: flex;
+	flex-direction: column;
+	gap: 4px;
+	font-size: 0.9rem;
+	color: #888d;
+}
+
+
+
 .selection-hint {
 	position: fixed;
 	bottom: 40%;
